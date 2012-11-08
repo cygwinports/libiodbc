@@ -1,0 +1,44 @@
+NAME="libiodbc"
+VERSION=3.52.8
+RELEASE=1
+CATEGORY="Database"
+SUMMARY="Platform-independent ODBC implementation"
+DESCRIPTION="Independent Open DataBase Connectivity (iODBC) is an Open Source
+platform-independent implementation of both Microsoft's ODBC universal data
+access framework and the X/Open SQL Call Level Interface specifications."
+HOMEPAGE="http://www.iodbc.org/"
+SRC_URI="mirror://sourceforge/iodbc/${NAME}-${VERSION}.tar.gz"
+PATCH_URI="
+	3.52.7-cdecl-stdcall-warnings.patch
+	3.52.7-cygwin-dllname.patch
+	3.52.7-no-undefined.patch
+	3.52.7-parallel-make.patch
+	3.52.7-stricmp.patch
+	3.52.7-xpm.patch
+"
+
+PKG_NAMES="libiodbc2 libiodbc-devel iodbctest iodbcadm-gtk"
+libiodbc2_SUMMARY="${SUMMARY} (runtime)"
+libiodbc2_CONTENTS="usr/bin/cygiodbc-2.dll usr/bin/cygiodbcinst-2.dll usr/share/doc/"
+libiodbc_devel_SUMMARY="${SUMMARY} (development)"
+libiodbc_devel_CONTENTS="--exclude=*drvproxy* --exclude=*iodbcadm*
+                         usr/bin/*-config usr/include/ usr/lib/ usr/share/man/man1/*-config.*"
+iodbctest_SUMMARY="${SUMMARY} (test programs)"
+iodbctest_CONTENTS="usr/bin/iodbctest* usr/share/${PN} usr/share/man/man1/iodbctest*"
+iodbcadm_gtk_SUMMARY="${SUMMARY} (GUI administrator)"
+iodbcadm_gtk_CONTENTS="usr/bin/*iodbcadm* usr/lib/*drvproxy* usr/share/applications/
+                       usr/share/man/man1/iodbcadm* usr/share/pixmaps/"
+PKG_IGNORE="usr/lib/libiodbcadm.dll.a"
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	# built with --disable-static, so no libiodbc to which to symlink
+	rm -f ${D}/usr/lib/libodbc.a
+
+	newicon ${S}/iodbcadm/gtk/odbc4.xpm iodbc.xpm
+	make_desktop_entry iodbcadm-gtk "ODBC Data Source Administrator" iodbc "Development;Database"
+}
+
+KEEP_LA_FILES="none"

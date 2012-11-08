@@ -1,8 +1,0 @@
-category: Database
-requires: libgcc1
-external-source: libiodbc
-sdesc: "ODBC implementation for *NIX (test programs)"
-ldesc: "Independent Open DataBase Connectivity (iODBC) is an Open Source 
-platform-independent implementation of both Microsoft's ODBC universal 
-data access framework and the X/Open SQL Call Level Interface 
-specifications."
