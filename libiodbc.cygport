@@ -1,6 +1,6 @@
 NAME="libiodbc"
 VERSION=3.52.8
-RELEASE=1
+RELEASE=2
 CATEGORY="Database"
 SUMMARY="Platform-independent ODBC implementation"
 DESCRIPTION="Independent Open DataBase Connectivity (iODBC) is an Open Source
@@ -29,6 +29,14 @@ iodbcadm_gtk_SUMMARY="${SUMMARY} (GUI administrator)"
 iodbcadm_gtk_CONTENTS="usr/bin/*iodbcadm* usr/lib/*drvproxy* usr/share/applications/
                        usr/share/man/man1/iodbcadm* usr/share/pixmaps/"
 PKG_IGNORE="usr/lib/libiodbcadm.dll.a"
+
+CYGCONF_ARGS="
+	--enable-gui
+	--enable-odbc3
+	--enable-libodbc
+	--enable-pthreads
+	libltdl_cv_need_uscore=no
+"
 
 src_install() {
 	cd ${B}
